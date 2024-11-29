@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agencia de Autos ID</title>
+    <style>
+        body {
+            display: flex; /* Activar Flexbox */
+            flex-direction: column; /* Organizar los elementos verticalmente */
+            justify-content: center; /* Centrado vertical */
+            align-items: center; /* Centrado horizontal */
+            height: 100vh; /* Altura completa de la ventana */
+            margin: 0; /* Eliminar márgenes predeterminados */
+            font-family: Arial, sans-serif; /* Fuente legible */
+            text-align: center; /* Centrar texto */
+            background-image: url('https://images.pexels.com/photos/2127039/pexels-photo-2127039.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); /* Reemplaza con la ruta de tu imagen */
+            background-size: cover; /* Hace que la imagen cubra toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            position: relative; /* Necesario para la superposición */
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); 
+            z-index: -1; /* Coloca la superposición detrás del contenido */
+        }
+        /* Contenedor con estilo de fondo difuso */
+        .frame {
+            position: relative;
+            width: 80%;
+            height: 80vh;
+            background-color:  rgb(255, 255, 224, 0.5); /* Fondo difuso */
+            backdrop-filter: blur(15px); /* Difumina el fondo */
+            -webkit-backdrop-filter: blur(15px); /* Compatible con Safari */
+            border-radius: 10px;
+            border: 2px solid  rgb(255, 255, 224, 0.5);
+            transition: border-color 0.3s ease;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px; /* Espacio entre el título y el contenido */
+            font-style: italic; /* Poner en cursiva */
+        }
+        h1:hover {
+            color: #8e44ad; /* Cambiar color a verde cuando se pasa el cursor */
+            cursor: pointer; /* Cambiar el cursor a mano al pasar sobre el título */
+        }
+        #searchForm {
+            display: flex;
+            justify-content: space-between; /* Espacio entre los elementos */
+            align-items: center; /* Centra verticalmente los elementos */
+            gap: 20px; /* Espacio entre los campos */
+            max-width: 900px; /* Ancho máximo del formulario */
+            margin: 20px auto; /* Centra el formulario en la página */
+        }
+
+        label {
+            margin-right: 10px; /* Espacio a la derecha de las etiquetas */
+        }
+
+        select, input[type="number"], button {
+            padding: 10px; /* Espaciado dentro de los campos */
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #8e44ad; /* Borde gris claro */
+            width: 100%; /* Hace que los campos ocupen todo el ancho disponible */
+        }
+        button[type="submit"] {
+            background-color: #4CAF50; /* Color de fondo verde */
+            color: white; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 10px 20px; /* Espaciado alrededor del texto */
+            font-size: 16px; /* Tamaño de la fuente */
+            cursor: pointer; /* Cambiar el cursor a mano al pasar el mouse */
+            border-radius: 5px; /* Bordes redondeados */
+            transition: background-color 0.3s ease; /* Transición suave */
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049; /* Fondo verde más oscuro */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        #resultsTable th, #resultsTable td {
+            padding: 12px 15px; /* Espaciado dentro de las celdas */
+            text-align: center; /* Centra el texto dentro de las celdas y encabezados */            border: 1px solid #8e44ad ; /* Borde de las celdas */
+        }
+        #resultsTable th {
+            background-color: #f5b7b1; /* Color de fondo verde */
+            color: black; /* Color de texto blanco */
+            padding: 10px;
+            text-align: center;
+        }
+        #resultsTable tr:hover {
+            background-color: #e8daef; /* Fondo gris claro cuando pasas el mouse */
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        #resultsTable img {
+          width: 100px; /* Ancho fijo */
+          height: auto; /* Mantiene la proporción */
+          border-radius: 5px; /* Bordes redondeados */
+        }
+    </style>
+</head>
+<body>
+  <div class="frame" > 
+
+    <h1 style="text-align: center; font-style: italic;">Agencia de Autos ID</h1>
+
+    <!-- Formulario de búsqueda -->
+    <form id="searchForm">
+        <label for="uso">Uso:</label>
+        <select id="uso" name="uso">
+            <option value="ciudad">Ciudad</option>
+            <option value="familiar">Familiar</option>
+            <option value="trabajo">Trabajo</option>
+        </select>
+        
+        <label for="precio">Precio desde 5 digitos:</label>
+        <input type="number" id="precio" name="precio" placeholder="Ingrese precio" min="0" required>
+
+        <label for="consumo">Consumo:</label>
+        <select id="consumo" name="consumo">
+            <option value="alto">Alto</option>
+            <option value="medio">Medio</option>
+            <option value="bajo">Bajo</option>
+        </select>
+        <button type="submit">Buscar Autos</button>
+    </form>
+
+    <!-- Tabla para mostrar resultados -->
+    <table id="resultsTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Año</th>
+                <th>Uso</th>
+                <th>Consumo</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+ <!-- Código JavaScript directo -->
+ <script>
+    document.getElementById("buscarForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const uso = document.getElementById("uso").value;
+        const precio = document.getElementById("precio").value;
+        const consumo = document.getElementById("consumo").value;
+
+
+        // Asegúrate de que los valores no estén vacíos
+        if (!uso || !precio) {
+            alert("Por favor, completa todos los campos.");
+            return;
+        }
+
+        // Construye la URL para hacer la solicitud GET
+        const url = `http://localhost:3000/api/autos/buscar?uso=${uso}&precio=${precio}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Muestra los resultados
+                console.log(data);
+                // Aquí puedes procesar la respuesta y mostrar los autos en tu página
+            })
+            .catch(error => {
+                console.error("Error al hacer la solicitud:", error);
+            });
+    });
+</script>
+    <script src="app.js"></script>
+</body>
+</html>
