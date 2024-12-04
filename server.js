@@ -1,4 +1,6 @@
+
 const express = require('express');
+
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors'); // Importa el paquete CORS
 const bodyParser = require('body-parser');
@@ -7,10 +9,12 @@ const app = express();
 const PORT = 3000;
 
 // Middleware para parsear JSON
-app.use(express.json());
+
 
 // Middleware para habilitar CORS
-app.use(cors()); // Esto permite solicitudes desde cualquier origen
+app.use(cors({
+  origin: ['http://agencyid.site', 'https://agencyid.site']
+}));
 
 // Usar bodyParser para poder leer JSON en el cuerpo de la solicitud
 app.use(bodyParser.json());

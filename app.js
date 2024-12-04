@@ -21,7 +21,8 @@ searchForm.addEventListener('submit', async (event) => {
 
     // Enviar solicitud GET al servidor
     try {
-        const response = await fetch(`http://localhost:3000/api/autos/buscar?uso=${uso}&precio=${precio}&consumo=${consumo}`);
+        const response = await fetch(`http://agencyid.site:3000/api/autos/buscar?uso=${uso}&precio=${precio}&consumo=${consumo}`);
+
 
         if (!response.ok) {
             throw new Error("No se encontraron autos con esos parámetros.");
